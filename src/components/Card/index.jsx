@@ -9,23 +9,26 @@ function Card() {
   const [shaxar, setShaxar] = useState("");
   const [text, setText] = useState('');
   const [son, setSon] = useState("2");
-  const [izoh, setIzoh] = useState();
+  const [izoh, setIzoh] = useState('');
 
+  function validate() {
+    let isValid = true;
 
-function validate() {
-  if ( !Number(card==9)) {
-    alert("notog'ri raqam");
-    card.focus();
-    card.style.outlineColor = 'red';
-    return false
+    if (name.length < 3) {
+      alert("Ismingizni to'liq kiriting");
+      isValid = false;
+    }
+
+    const phoneNumber = card.replace(/^\+998/, '');
+    if (phoneNumber.length < 9) {
+      alert("Telefon raqami to'liq emas");
+      isValid = false;
+    }
+
+    return isValid;
   }
 
-
-  return true
-}
-
-
-
+  
   function handleName(event) {
     setName(event.target.value);
   }
@@ -45,18 +48,26 @@ function validate() {
   function handleShaxar(event) {
     setShaxar(event.target.value);
   }
-  function handletext(event) {
+
+  function handleText(event) {
     setText(event.target.value);
   }
-  function handleson(event) {
+
+  function handleSon(event) {
     setSon(event.target.value);
   }
-  function handleizoh(event) {
+
+  function handleIzoh(event) {
     setIzoh(event.target.value);
   }
-  function handlebtn(event) {
+
+  function handleBtn(event) {
     event.preventDefault();
-    console.log(name);
+
+    if (!validate()) {
+      return;
+    }
+
     let user = {
       name,
       email,
@@ -89,9 +100,10 @@ function validate() {
             <input
               type="text"
               placeholder="Kompaniya nomi"
-              onChange={handleName}    
+              onChange={handleName}
+              value={name}
             />
- 
+
             <h4>
               {" "}
               Email <span>*</span>
@@ -102,6 +114,7 @@ function validate() {
               name="email"
               placeholder="Email"
               onChange={handleEmail}
+              value={email}
               required
             />
 
@@ -110,7 +123,7 @@ function validate() {
               Telefon raqami <span>*</span>
             </h4>
 
-            <select>
+            <select onChange={(e) => setCard(e.target.value)} value={card}>
               <option value="+998">+998</option>
               <option value="+996">+996</option>
               <option value="+798">+798</option>
@@ -122,6 +135,7 @@ function validate() {
               placeholder="Telefon raqami "
               required
               onChange={handleCard}
+              value={card}
             />
           </div>
           <div className="icon">
@@ -136,7 +150,7 @@ function validate() {
                 Davlat *<span>*</span>
               </h4>
 
-              <select onChange={handleDavl}>
+              <select onChange={handleDavl} value={davl}>
                 <option value="UZB">uzb</option>
                 <option value="KRG">KRG</option>
                 <option value="RUS">RUS</option>
@@ -149,7 +163,7 @@ function validate() {
                 Shahar <span>*</span>
               </h4>
 
-              <select onChange={handleShaxar}>
+              <select onChange={handleShaxar} value={shaxar}>
                 <option value="FARGONA">FARGONA</option>
                 <option value="OSH">OSH</option>
                 <option value="MACKVA">MACKVA</option>
@@ -164,8 +178,8 @@ function validate() {
             className="joy"
             type="text"
             placeholder="Joy"
-            onChange={handletext}
-           
+            onChange={handleText}
+            value={text}
           />
 
           <h4>
@@ -173,7 +187,7 @@ function validate() {
             Hodimlar soni <span>*</span>
           </h4>
 
-          <select className="hod" onChange={handleson}>
+          <select className="hod" onChange={handleSon} value={son}>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -186,13 +200,14 @@ function validate() {
           <input
             className="izoh"
             type="text"
-            placeholder=" Kompaniya haqida izoh qoldiring"
-            onChange={handleizoh}
+            placeholder="Kompaniya haqida izoh qoldiring"
+            onChange={handleIzoh}
+            value={izoh}
           />
 
           <div className="btn">
             <button className="btnn">Ortga</button>
-            <button onClick={handlebtn}>Keyingisi</button>
+            <button onClick={handleBtn}>Keyingisi</button>
           </div>
         </div>
       </div>
